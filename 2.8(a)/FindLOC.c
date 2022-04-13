@@ -12,14 +12,14 @@ int main()
     {
         if(largest < arr[i])
         {
-            slargest = largest;
-            largest = arr[i];
-            LOC2 = LOC1;
+            slargest = largest; //When a largest element is found, the previous
+            largest = arr[i];   //largest element is transfered to the second
+            LOC2 = LOC1;        //largest variable as well as its location
             LOC1 = i;
         }
         else if(slargest < arr[i])
         {
-            slargest = arr[i];
+            slargest = arr[i];  //Checks for second largest element only
             LOC2 = i;
         }
     }
