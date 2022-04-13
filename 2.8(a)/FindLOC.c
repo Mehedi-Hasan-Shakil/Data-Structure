@@ -1,4 +1,5 @@
 /*Write a procedure FIND(DATA, N, LOC1, LOC2) which finds
+largest and second largest element and
 the location LOC1 of the largest element and the location
 LOC2 of the second largest element in an array DATA with n
 > 1 elements.*/
