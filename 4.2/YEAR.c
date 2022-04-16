@@ -6,7 +6,7 @@ int num_older_than_l_years(int arr[], int l);
 
 int main(void)
 {
-    printf("Enter year (at least l years old) : ");
+    printf("Enter year (from 14 to 64) : ");
     int l;
     scanf("%d", &l);
     int year[71];
