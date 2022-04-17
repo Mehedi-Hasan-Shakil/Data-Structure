@@ -1,3 +1,7 @@
+/*Using the bubble sort algorithm, Algorithm 4.4, find the
+number C of comparisons and the number D of interchanges
+which alphabetize the n = 6 letters in PEOPLE.*/
+
 #include <stdio.h>
 
 int main(void)
