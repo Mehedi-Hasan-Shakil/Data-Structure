@@ -13,9 +13,10 @@ int main(void)
     {
         if(isdigit(p[i]))
         {
-            number = stoi(&p[i]);
+            number = 0;
             while(isdigit(p[i]))
             {
+                number = number*10 + (p[i] - '0');
                 i++;
             }
             i--;
