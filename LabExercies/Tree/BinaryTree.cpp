@@ -10,12 +10,21 @@ typedef struct Binary_Tree_Node node;
 node *root = NULL, *ptr = NULL;
 int FIRST = 1;
 stack<node*> st;
+
 node* Create_Node();
 void Print_Preorder();
+void Print_Postorder(node*);
+void Print_Inorder(node*);
+
 int main(void)
 {
     root = Create_Node();
     Print_Preorder();
+    cout<<"\nPost-order : ";
+    Print_Postorder(root);
+    cout<<"\nInorder : ";
+    Print_Inorder(root);
+    cout<<"\n";
 }
 
 node* Create_Node()
@@ -23,7 +32,7 @@ node* Create_Node()
     int info;
     if(FIRST)
     {
-        printf("Enter your node info : ");
+        printf("Enter your root node : ");
         FIRST = 0;
     }
     scanf("%d", &info);
@@ -42,6 +51,7 @@ node* Create_Node()
 }
 void Print_Preorder()
 {
+    cout<<"\nPre-order : ";
     st.push(NULL);
     ptr = root;
     while(ptr != NULL)
@@ -63,3 +73,22 @@ void Print_Preorder()
     }
 }
 
+void Print_Postorder(node *ptr1)
+{
+    if(ptr1 != NULL)
+    {
+        Print_Postorder(ptr1->left);
+        Print_Postorder(ptr1->right);
+        cout<<ptr1->data<<" ";
+    }
+}
+
+void Print_Inorder(node *ptr1)
+{
+    if(ptr1 != NULL)
+    {
+        Print_Inorder(ptr1->left);
+        cout<<ptr1->data<<" ";
+        Print_Inorder(ptr1->right);
+    }
+}
