@@ -7,21 +7,21 @@ struct Node
     struct Node *right;
 };
 typedef Node node;
-node *root = NULL, *ptr = NULL, *par = NULL;
-int loc, c = 0;
-
-void InsertElement();
-node* CreateNode(int);
+node *root = NULL, *ptr = NULL;
+int loc;
+void Insert();
+void Print(node*, int);
+node* CreatNode(int);
 void Print_Inorder(node*);
 
 int main(void)
 {
-    InsertElement();
+    Insert();
     Print_Inorder(root);
     return 0;
 }
 
-node* CreateNode(int item)
+node* CreatNode(int item)
 {
     node *newNode = (node*)(malloc(sizeof(node)));
     newNode->data = item;
@@ -30,51 +30,54 @@ node* CreateNode(int item)
     return newNode;
 }
 
-void InsertElement()
+void Insert()
 {
-    int item;
     cout<<"Enter an element : ";
+    int item;
     cin>>item;
-    root = CreateNode(item);
-    c++;
+    if(root == NULL)
+    {
+        root = CreatNode(item);
+    }
+    else
+    {
 loop:
-    loc = 1;
-    ptr = root;
-    while(ptr != NULL)
-    {
-        par = ptr;
-        if(item < ptr->data)
+        loc = 1;
+        ptr = root;
+        while(ptr != NULL)
         {
-            loc = loc * 2;
-            ptr = ptr->left;
-        }
-        else if(item > ptr->data)
-        {
-            loc = loc * 2 + 1;
-            ptr = ptr->right;
-        }
-        else
-        {
-            if(c > 1)
+            if(item < ptr->data)
+            {
+                if(ptr->left == NULL)
+                {
+                    ptr->left = CreatNode(item);
+                    ptr = ptr->left;
+                }
+                loc = loc * 2;
+                ptr = ptr->left;
+            }
+            else if(item > ptr->data)
+            {
+                if(ptr->right == NULL)
+                {
+                    ptr->right = CreatNode(item);
+                    ptr = ptr->right;
+                }
+                loc = loc * 2 + 1;
+                ptr = ptr->right;
+            }
+            else
+            {
                 cout<<item<<" is found at location "<<loc<<"\n";
-            break;
+                break;
+            }
         }
     }
-    if(item < par->data)
-    {
-        par->left = CreateNode(item);
-    }
-    else if(item > par->data)
-    {
-        par->right = CreateNode(item);
-    }
-    c++;
+    Print(root, 0);
     cout<<"Enter another element : ";
     cin>>item;
-    if(item != -1)
-    {
+    if(item != -1) //Tree terminates when -1 is the input
         goto loop;
-    }
 }
 
 void Print_Inorder(node *ptr1)
@@ -85,4 +88,23 @@ void Print_Inorder(node *ptr1)
         cout<<ptr1->data<<" ";
         Print_Inorder(ptr1->right);
     }
+}
+
+void Print(node *ptr1, int space)
+{
+    int increase = 10;
+    if(ptr1 == NULL)
+    {
+        return;
+    }
+    space = space + increase;
+    Print(ptr1->right, space); //Goes to the top right node
+    cout<<"\n";
+    for (int i = increase; i < space; i++)
+    {
+        cout << ' ';
+    }
+    cout<<ptr1->data;
+    cout<<"\n";
+    Print(ptr1->left, space);
 }
