@@ -1,82 +1,73 @@
 #include <stdio.h>
-void create_matrix(int);
-void display_matrix(int);
-void number_of_paths(int);
-void display_adjacency_list(int);
-int matrix[20][20];
-int power_matrix[20][20];
+int power_matrix[20][20][20];
 int main(void)
 {
     int n;
     printf("Enter number of nodes : ");
     scanf("%d", &n);
-    printf("Enter the matrix :\n");
-    create_matrix(n);
-    number_of_paths(n);
-    display_matrix(n);
-
-    return 0;
-}
-void create_matrix(int n)
-{
-    for(int i = 0; i < n; i++)
-    {
-        for(int j = 0; j < n; j++)
+    int matrix[n][n];
+    printf("Enter your adjacency matrix :\n");
+    for (int i = 0; i < n; i++)
+    { // take input as matrix
+        for (int j = 0; j < n; j++)
         {
             scanf("%d", &matrix[i][j]);
         }
     }
-}
-void display_adjacency_list(int n)
-{
-    printf("\nAdjacency List :\n");
-    for(int i = 0; i < n; i++)
+    printf("\n\nAdjacency List:\n"); // display adjacency list
+    for (int i = 0; i < n; i++)
     {
         printf("%d --> ", i);
-        for(int j = 0; j < n; j++)
+        for (int j = 0; j < n; j++)
         {
-            if(matrix[i][j])
-            {
+            if (matrix[i][j])
                 printf("%d ", j);
-            }
         }
         printf("\n");
     }
-}
-void number_of_paths(int n)
-{
-    int length, u, v;
-    printf("Enter your required length : ");
-    scanf("%d", &length);
-    printf("Enter source and destination nodes : ");
-    scanf("%d%d", &u, &v);
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            power_matrix[i][j] = matrix[i][j];
-        }
-    }
-    for(int k = 0; k < length - 1; k++)
+    printf("\n\n");
+    for (int i = 0; i < n; i++)
     {
-        for(int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
         {
-            for(int j = 0; j < n; j++)
+            for (int k = 0; k < n; k++)
             {
-                int temp = 0;
-                for(int l = 0; l < n; l++)
+                if (i == 0) // copy adjacency matrix to power matrix[0][n][n]
                 {
-                    temp += power_matrix[i][l] * matrix[l][j];
+                    for (int i = 0; i < n; i++)
+                    {
+                        for (int j = 0; j < n; j++)
+                        {
+                            power_matrix[0][i][j] = matrix[i][j];
+                        }
+                    }
                 }
-                power_matrix[i][j] = temp;
+                else
+                {
+                    int sum = 0;
+                    for (int l = 0; l < n; l++)
+                    {
+                        sum += power_matrix[i - 1][j][l] * matrix[l][k];
+                    }
+                    power_matrix[i][j][k] = sum;
+                }
             }
         }
-    }
-    printf("\nNumber of paths of length %d from %d to %d is %d\n", length, u, v, power_matrix[u][v]);
-}
-void display_matrix(int n) {
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            printf("%d ", power_matrix[i][j]);
+        for (int p = 0; p < n; p++)
+        {
+            for (int q = 0; q < n; q++)
+            {
+                if (power_matrix[i][p][q])
+                {
+                    printf("%d path(s) between %d and %d of length %d\n", power_matrix[i][p][q], p, q, i + 1);
+                }
+                else
+                {
+                    printf("There is no path between %d and %d of length %d\n", p, q, i + 1);
+                }
+            }
         }
-        printf("\n");
+        printf("\n\n");
     }
+    return 0;
 }
